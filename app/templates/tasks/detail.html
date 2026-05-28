@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}{{ task.title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">{{ task.title }}</h1>
+        <p class="text-muted mb-0">{{ {'todo': 'К выполнению', 'in_progress': 'В работе', 'done': 'Выполнено'}[task.status] }} · {{ {'low': 'Низкий', 'medium': 'Средний', 'high': 'Высокий'}[task.priority] }}</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="btn btn-outline-primary">Редактировать</a>
+        {% if task.creator_id == current_user.id %}
+            <form method="post" action="{{ url_for('tasks.delete_task', task_id=task.id) }}" class="d-inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-outline-danger"
+                    onclick="return confirm('Удалить задачу?')">Удалить</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h5">Описание</h2>
+                <div class="markdown-body" data-markdown="{{ task.description or '' }}">{{ task.description or 'Описание отсутствует.' }}</div>
+                <div class="small text-muted mt-3">
+                    Исполнитель: {{ task.assignee.username if task.assignee else 'Без исполнителя' }}<br>
+                    Срок: {{ task.due_date or '—' }}<br>
+                    Теги:
+                    {% for tag in task.tags %}
+                        <span class="badge bg-secondary">{{ tag.name }}</span>
+                    {% else %}
+                        —
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h5">Комментарии</h2>
+                <form method="post" class="mb-4">
+                    {{ comment_form.hidden_tag() }}
+                    <div class="mb-3">{{ comment_form.body(class='form-control', rows=3, placeholder='Поддерживается Markdown') }}</div>
+                    {{ comment_form.submit(class='btn btn-primary') }}
+                </form>
+                <ul class="list-group list-group-flush">
+                    {% for comment in task.comments|sort(attribute='created_at', reverse=true) %}
+                        <li class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <strong>{{ comment.author.username }}</strong>
+                                    <div class="small text-muted">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+                                    <div class="markdown-body" data-markdown="{{ comment.body }}">{{ comment.body }}</div>
+                                </div>
+                                {% if comment.author_id == current_user.id %}
+                                    <form method="post" action="{{ url_for('tasks.delete_comment', comment_id=comment.id) }}" class="ms-2">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Удалить комментарий?')">×</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item px-0 text-muted">Комментариев пока нет.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h5">Вложения</h2>
+                <form method="post" enctype="multipart/form-data" class="mb-4">
+                    {{ attachment_form.hidden_tag() }}
+                    <div class="mb-3">{{ attachment_form.file(class='form-control') }}</div>
+                    {{ attachment_form.submit(class='btn btn-primary') }}
+                </form>
+                <ul class="list-group list-group-flush">
+                    {% for attachment in task.attachments|sort(attribute='uploaded_at', reverse=true) %}
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                            <span>{{ attachment.original_name }}</span>
+                            <div class="d-flex gap-1">
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('tasks.download_attachment', attachment_id=attachment.id) }}">Скачать</a>
+                                {% if attachment.uploader_id == current_user.id %}
+                                    <form method="post" action="{{ url_for('tasks.delete_attachment', attachment_id=attachment.id) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Удалить вложение?')">×</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item px-0 text-muted">Вложений пока нет.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Активность</h2>
+                <ul class="list-group list-group-flush">
+                    {% for item in task.activities|sort(attribute='created_at', reverse=true) %}
+                        <li class="list-group-item px-0">
+                            <strong>{{ item.action.replace('_', ' ') }}</strong>
+                            <div class="small text-muted">{{ item.actor.username }} · {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+                            {% if item.details %}<div>{{ item.details }}</div>{% endif %}
+                        </li>
+                    {% else %}
+                        <li class="list-group-item px-0 text-muted">История пока пуста.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+document.querySelectorAll('.markdown-body').forEach(el => {
+    const raw = el.dataset.markdown;
+    if (raw) el.innerHTML = marked.parse(raw);
+});
+</script>
+{% endblock %}

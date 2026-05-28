@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %}Canbas — управление задачами для команд{% endblock %}
+{% block content %}
+
+{# Hero #}
+<div class="landing-hero text-center py-5 mb-5">
+    <div class="py-4">
+        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fs-6">Бесплатно и без лишнего</span>
+        <h1 class="display-4 fw-bold mb-3">Управляй задачами<br>вместе с командой</h1>
+        <p class="lead text-muted mx-auto mb-4" style="max-width:560px">
+            Канбан-доска, приоритеты, дедлайны, файлы и аналитика — всё в одном месте. Без подписок и лишних кнопок.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4">Начать бесплатно</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg px-4">Войти</a>
+        </div>
+    </div>
+</div>
+
+{# Features #}
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="feature-card card h-100 border-0 shadow-sm p-1">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-kanban"></i>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Канбан-доска</h3>
+                <p class="text-muted mb-0">Перетаскивай задачи между колонками «К выполнению», «В работе» и «Выполнено». Статус обновляется мгновенно.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card card h-100 border-0 shadow-sm p-1">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Команды и роли</h3>
+                <p class="text-muted mb-0">Создай команду, пригласи коллег по коду. Администраторы управляют проектами, участники — задачами.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card card h-100 border-0 shadow-sm p-1">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-bar-chart-line"></i>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Аналитика</h3>
+                <p class="text-muted mb-0">Смотри прогресс по проектам, нагрузку на каждого участника и список просроченных задач.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card card h-100 border-0 shadow-sm p-1">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-paperclip"></i>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Файлы и комментарии</h3>
+                <p class="text-muted mb-0">Прикрепляй файлы прямо к задаче, оставляй комментарии — вся история обсуждений в одном месте.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card card h-100 border-0 shadow-sm p-1">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-flag"></i>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Приоритеты и дедлайны</h3>
+                <p class="text-muted mb-0">Устанавливай приоритет задачи и срок выполнения. Просроченные задачи сразу видны в аналитике.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card card h-100 border-0 shadow-sm p-1">
+            <div class="card-body p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-list-task"></i>
+                </div>
+                <h3 class="h5 fw-semibold mb-2">Список и фильтры</h3>
+                <p class="text-muted mb-0">Переключайся между канбан-доской и списком задач. Фильтруй по статусу, приоритету и исполнителю.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# How it works #}
+<div class="text-center mb-2">
+    <h2 class="fw-bold mb-1">Как это работает</h2>
+    <p class="text-muted">Три шага до первой задачи</p>
+</div>
+<div class="row g-4 mb-5 text-center">
+    <div class="col-md-4">
+        <div class="step-number mx-auto mb-3">1</div>
+        <h4 class="h6 fw-semibold">Зарегистрируйся</h4>
+        <p class="text-muted small">Создай аккаунт за 30 секунд — только имя, email и пароль.</p>
+    </div>
+    <div class="col-md-4">
+        <div class="step-number mx-auto mb-3">2</div>
+        <h4 class="h6 fw-semibold">Создай команду и проект</h4>
+        <p class="text-muted small">Пригласи коллег по инвайт-коду и заведи первый проект.</p>
+    </div>
+    <div class="col-md-4">
+        <div class="step-number mx-auto mb-3">3</div>
+        <h4 class="h6 fw-semibold">Добавляй задачи</h4>
+        <p class="text-muted small">Создавай задачи, назначай исполнителей и двигай карточки по доске.</p>
+    </div>
+</div>
+
+{# CTA #}
+<div class="landing-cta text-center rounded-4 py-5 mb-4">
+    <h2 class="fw-bold mb-2">Готов попробовать?</h2>
+    <p class="text-muted mb-4">Регистрация бесплатна. Никаких карт и подписок.</p>
+    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-5">Создать аккаунт</a>
+</div>
+
+{% endblock %}

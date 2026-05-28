@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<h1 class="mb-4">Профиль</h1>
+<div class="row g-4">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Редактировать профиль</h2>
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.username.label(class='form-label') }}
+                        {{ form.username(class='form-control') }}
+                        {% for e in form.username.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.email.label(class='form-label') }}
+                        {{ form.email(class='form-control') }}
+                        {% for e in form.email.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+                    </div>
+                    <hr>
+                    <p class="text-muted small">Заполните только если хотите сменить пароль</p>
+                    <div class="mb-3">
+                        {{ form.current_password.label(class='form-label') }}
+                        {{ form.current_password(class='form-control') }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.new_password.label(class='form-label') }}
+                        {{ form.new_password(class='form-control') }}
+                        {% for e in form.new_password.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.confirm_new_password.label(class='form-label') }}
+                        {{ form.confirm_new_password(class='form-control') }}
+                        {% for e in form.confirm_new_password.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+                    </div>
+                    {{ form.submit(class='btn btn-primary') }}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Статистика</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Назначено задач</span><strong>{{ total_tasks }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Выполнено</span><strong>{{ done_tasks }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Команд</span><strong>{{ current_user.team_memberships|length }}</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Зарегистрирован</span><strong>{{ current_user.created_at.strftime('%Y-%m-%d') }}</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

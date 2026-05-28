@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Команда {{ team.name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">{{ team.name }}</h1>
+        <p class="text-muted mb-0">
+            Код приглашения:
+            {% if my_role == 'admin' %}
+                <span class="badge bg-secondary font-monospace">{{ team.invite_code }}</span>
+                <form method="post" action="{{ url_for('projects.regenerate_invite_code', team_id=team.id) }}" class="d-inline ms-2">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Обновить код</button>
+                </form>
+            {% else %}
+                <span class="text-muted">доступен только администратору</span>
+            {% endif %}
+        </p>
+    </div>
+    {% if team.owner_id != current_user.id %}
+        <form method="post" action="{{ url_for('projects.leave_team', team_id=team.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-outline-danger"
+                onclick="return confirm('Покинуть команду?')">Покинуть команду</button>
+        </form>
+    {% endif %}
+</div>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Email</th>
+                    <th>Роль</th>
+                    <th>Дата вступления</th>
+                    {% if my_role == 'admin' %}<th></th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for membership in team.memberships %}
+                    <tr>
+                        <td>{{ membership.user.username }}</td>
+                        <td>{{ membership.user.email }}</td>
+                        <td>{{ 'Администратор' if membership.role == 'admin' else 'Участник' }}</td>
+                        <td>{{ membership.created_at.strftime('%Y-%m-%d') }}</td>
+                        {% if my_role == 'admin' %}
+                            <td class="d-flex gap-1">
+                                {% if membership.user_id != team.owner_id %}
+                                    {% if membership.role != 'admin' %}
+                                        <form method="post" action="{{ url_for('projects.promote_member', team_id=team.id, user_id=membership.user_id) }}">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">Повысить</button>
+                                        </form>
+                                    {% else %}
+                                        <form method="post" action="{{ url_for('projects.demote_member', team_id=team.id, user_id=membership.user_id) }}">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-warning">Понизить</button>
+                                        </form>
+                                    {% endif %}
+                                    <form method="post" action="{{ url_for('projects.remove_member', team_id=team.id, user_id=membership.user_id) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Исключить участника?')">Исключить</button>
+                                    </form>
+                                {% else %}
+                                    <span class="text-muted small">Владелец</span>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

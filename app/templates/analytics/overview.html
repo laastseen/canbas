@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Аналитика{% endblock %}
+{% block content %}
+<h1 class="mb-4">Аналитика</h1>
+
+{% if not stats %}
+    <p class="text-muted">Вступите в команду и создайте проект, чтобы увидеть статистику.</p>
+{% else %}
+<div class="row g-3 mb-4">
+    <div class="col-md-2"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Всего</div><div class="display-6">{{ stats.total }}</div></div></div></div>
+    <div class="col-md-2"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">К выполнению</div><div class="display-6">{{ stats.todo }}</div></div></div></div>
+    <div class="col-md-2"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">В работе</div><div class="display-6">{{ stats.in_progress }}</div></div></div></div>
+    <div class="col-md-2"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Выполнено</div><div class="display-6">{{ stats.done }}</div></div></div></div>
+    <div class="col-md-2"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Высокий приоритет</div><div class="display-6">{{ stats.high_priority }}</div></div></div></div>
+    <div class="col-md-2"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Выполнено %</div><div class="display-6">{{ stats.done_pct }}%</div></div></div></div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Нагрузка по исполнителям</h2>
+                {% if workload %}
+                    <ul class="list-group list-group-flush">
+                        {% for username, count in workload %}
+                            <li class="list-group-item d-flex justify-content-between px-0">
+                                <span>{{ username }}</span>
+                                <span class="badge bg-primary rounded-pill">{{ count }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Данных по нагрузке пока нет.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Прогресс по проектам</h2>
+                {% if projects_progress %}
+                    {% for p in projects_progress %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span>{{ p.name }}</span>
+                                <span>{{ p.done }}/{{ p.total }} ({{ p.pct }}%)</span>
+                            </div>
+                            <div class="progress" style="height:8px">
+                                <div class="progress-bar" style="width:{{ p.pct }}%"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">Проектов пока нет.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if overdue %}
+<div class="card shadow-sm border-danger">
+    <div class="card-header text-danger">Просроченные задачи ({{ overdue|length }})</div>
+    <div class="card-body p-0">
+        <table class="table mb-0 align-middle">
+            <thead>
+                <tr><th>Задача</th><th>Проект</th><th>Срок</th><th>Исполнитель</th></tr>
+            </thead>
+            <tbody>
+                {% for task in overdue %}
+                    <tr>
+                        <td><a href="{{ url_for('tasks.task_detail', task_id=task.id) }}">{{ task.title }}</a></td>
+                        <td>{{ task.project.name }}</td>
+                        <td class="text-danger">{{ task.due_date }}</td>
+                        <td>{{ task.assignee.username if task.assignee else '—' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

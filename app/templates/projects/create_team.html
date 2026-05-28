@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Создать команду{% endblock %}
+{% block content %}
+<h1 class="mb-4">Создать команду</h1>
+<form method="post" class="card card-body shadow-sm col-md-6">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">{{ form.name.label(class='form-label') }}{{ form.name(class='form-control') }}</div>
+    {{ form.submit(class='btn btn-primary') }}
+</form>
+{% endblock %}
