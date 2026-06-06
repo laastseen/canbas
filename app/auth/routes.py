@@ -1,6 +1,7 @@
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
+from app.admin.services import get_setting
 from app.auth import bp
 from app.auth.forms import LoginForm, ProfileForm, RegistrationForm
 from app.extensions import db
@@ -13,7 +14,18 @@ def register():
         return redirect(url_for("main.dashboard"))
 
     form = RegistrationForm()
+    if get_setting("registration_enabled", "true") != "true":
+        flash("Регистрация временно закрыта.", "warning")
+        return redirect(url_for("auth.login"))
+
     if form.validate_on_submit():
+        email = form.email.data.lower()
+        domain = email.split("@")[-1]
+        blocked = {d.strip().lower() for d in get_setting("blocked_email_domains", "").split(",") if d.strip()}
+        if domain in blocked:
+            flash("Регистрация с этого домена email запрещена.", "danger")
+            return redirect(url_for("auth.register"))
+
         existing_user = User.query.filter(
             (User.email == form.email.data.lower()) | (User.username == form.username.data)
         ).first()
@@ -43,6 +55,9 @@ def login():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is None or not user.check_password(form.password.data):
             flash("Неверная почта или пароль.", "danger")
+            return redirect(url_for("auth.login"))
+        if not user.is_active:
+            flash("Аккаунт заблокирован.", "danger")
             return redirect(url_for("auth.login"))
 
         login_user(user)

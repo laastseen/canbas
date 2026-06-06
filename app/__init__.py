@@ -22,12 +22,14 @@ def create_app(config_class=Config):
     from app.projects import bp as projects_bp
     from app.tasks import bp as tasks_bp
     from app.analytics import bp as analytics_bp
+    from app.admin import bp as admin_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(projects_bp)
     app.register_blueprint(tasks_bp)
     app.register_blueprint(analytics_bp)
+    app.register_blueprint(admin_bp)
 
     with app.app_context():
         from app import models  # noqa: F401

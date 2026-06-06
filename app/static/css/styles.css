@@ -155,3 +155,56 @@ main { flex: 1; }
 
 /* ── Tables ── */
 .table { --bs-table-bg: transparent; }
+
+/* ── Admin panel ── */
+.admin-body { background: #f3f4f6; }
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 240px;
+  background: #111827;
+  color: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.admin-brand {
+  padding: 1.25rem 1.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #374151;
+}
+
+.admin-sidebar .nav-link {
+  color: #9ca3af;
+  padding: 0.65rem 1.5rem;
+  border-radius: 0;
+}
+
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+  color: #fff;
+  background: #1f2937;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  overflow-x: auto;
+}
+
+.admin-stat {
+  border: none;
+  border-radius: var(--cb-radius);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+@media (max-width: 768px) {
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar { width: 100%; }
+  .admin-sidebar .nav { flex-direction: row !important; flex-wrap: wrap; }
+  .admin-sidebar .nav-link { padding: 0.5rem 1rem; }
+}

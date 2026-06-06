@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Дашборд</h1>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-4 col-lg-2"><div class="card admin-stat"><div class="card-body"><div class="text-muted small">Пользователи</div><div class="h4 mb-0">{{ stats.users }}</div></div></div></div>
+    <div class="col-6 col-md-4 col-lg-2"><div class="card admin-stat"><div class="card-body"><div class="text-muted small">Команды</div><div class="h4 mb-0">{{ stats.teams }}</div></div></div></div>
+    <div class="col-6 col-md-4 col-lg-2"><div class="card admin-stat"><div class="card-body"><div class="text-muted small">Проекты</div><div class="h4 mb-0">{{ stats.projects }}</div></div></div></div>
+    <div class="col-6 col-md-4 col-lg-2"><div class="card admin-stat"><div class="card-body"><div class="text-muted small">Задачи</div><div class="h4 mb-0">{{ stats.tasks }}</div></div></div></div>
+    <div class="col-6 col-md-4 col-lg-2"><div class="card admin-stat"><div class="card-body"><div class="text-muted small">Комментарии</div><div class="h4 mb-0">{{ stats.comments }}</div></div></div></div>
+    <div class="col-6 col-md-4 col-lg-2"><div class="card admin-stat"><div class="card-body"><div class="text-muted small">Файлы</div><div class="h4 mb-0">{{ stats.attachments }}</div></div></div></div>
+</div>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card"><div class="card-header">Задачи по статусам</div><div class="card-body">
+            <div class="d-flex justify-content-between mb-2"><span>К выполнению</span><strong>{{ stats.tasks_todo }}</strong></div>
+            <div class="d-flex justify-content-between mb-2"><span>В работе</span><strong>{{ stats.tasks_in_progress }}</strong></div>
+            <div class="d-flex justify-content-between mb-2"><span>Готово</span><strong>{{ stats.tasks_done }}</strong></div>
+            <div class="d-flex justify-content-between text-danger"><span>Просрочено</span><strong>{{ stats.overdue }}</strong></div>
+        </div></div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card"><div class="card-header">Регистрации (7 дней)</div><div class="card-body">
+            {% for row in stats.reg_chart %}
+            <div class="d-flex justify-content-between small mb-1"><span>{{ row.day }}</span><span>{{ row.count }}</span></div>
+            {% else %}<p class="text-muted mb-0">Нет данных</p>{% endfor %}
+        </div></div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card"><div class="card-header">Топ команд</div><div class="card-body">
+            {% for team in stats.top_teams %}
+            <div class="d-flex justify-content-between mb-2"><span>{{ team.name }}</span><strong>{{ team.tasks }}</strong></div>
+            {% else %}<p class="text-muted mb-0">Нет данных</p>{% endfor %}
+            <hr><div class="small text-muted">Загрузки: ~{{ stats.disk_usage_mb }} МБ</div>
+        </div></div>
+    </div>
+</div>
+<div class="card mt-4"><div class="card-header">Последняя активность</div><div class="table-responsive"><table class="table table-sm mb-0">
+    <thead><tr><th>Дата</th><th>Действие</th><th>Детали</th><th>Задача</th></tr></thead>
+    <tbody>
+    {% for a in stats.recent_activity %}
+    <tr>
+        <td class="text-muted small">{{ a.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+        <td>{{ a.action }}</td>
+        <td>{{ a.details or '—' }}</td>
+        <td>#{{ a.task_id }}</td>
+    </tr>
+    {% else %}<tr><td colspan="4" class="text-muted">Нет активности</td></tr>{% endfor %}
+    </tbody>
+</table></div></div>
+{% endblock %}

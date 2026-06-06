@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+{% block title %}Пользователи{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Пользователи</h1>
+    <form class="d-flex gap-2" method="get">
+        <input type="search" name="q" class="form-control form-control-sm" placeholder="Поиск..." value="{{ q }}">
+        <button class="btn btn-sm btn-primary">Найти</button>
+    </form>
+</div>
+<div class="table-responsive card"><table class="table table-hover mb-0">
+    <thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Роль</th><th>Статус</th><th>Регистрация</th><th></th></tr></thead>
+    <tbody>
+    {% for u in users %}
+    <tr>
+        <td>{{ u.id }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{% if u.is_superadmin %}<span class="badge bg-danger">Super-admin</span>{% else %}Пользователь{% endif %}</td>
+        <td>{% if u.is_active %}<span class="badge bg-success">Активен</span>{% else %}<span class="badge bg-secondary">Заблокирован</span>{% endif %}</td>
+        <td class="text-muted small">{{ u.created_at.strftime('%d.%m.%Y') }}</td>
+        <td><a href="{{ url_for('admin.user_detail', user_id=u.id) }}" class="btn btn-sm btn-outline-primary">Открыть</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table></div>
+{% endblock %}

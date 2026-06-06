@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ team.name }}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">{{ team.name }}</h1>
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card"><div class="card-header">Редактирование</div><div class="card-body">
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="action" value="update">
+                <div class="mb-3"><label class="form-label">Название</label><input name="name" class="form-control" value="{{ team.name }}"></div>
+                <div class="mb-3"><label class="form-label">Владелец (ID)</label><input name="owner_id" type="number" class="form-control" value="{{ team.owner_id }}"></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>
+            <hr>
+            <form method="post" class="d-inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="regenerate_code"><button class="btn btn-outline-secondary">Новый invite-код</button></form>
+            <form method="post" class="d-inline ms-2" onsubmit="return confirm('Удалить команду?')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="delete"><button class="btn btn-outline-danger">Удалить</button></form>
+        </div></div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card mb-3"><div class="card-header">Участники</div><ul class="list-group list-group-flush">
+            {% for m in members %}<li class="list-group-item d-flex justify-content-between"><span>{{ m.user.username }}</span><span class="badge bg-secondary">{{ m.role }}</span></li>{% endfor %}
+        </ul></div>
+        <div class="card"><div class="card-header">Проекты</div><ul class="list-group list-group-flush">
+            {% for p in projects %}<li class="list-group-item">{{ p.name }} <span class="text-muted">({{ p.tasks|length }} задач)</span></li>{% else %}<li class="list-group-item text-muted">Нет проектов</li>{% endfor %}
+        </ul></div>
+    </div>
+</div>
+<a href="{{ url_for('admin.teams') }}" class="btn btn-link mt-3">← Назад</a>
+{% endblock %}

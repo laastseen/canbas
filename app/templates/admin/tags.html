@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+{% block title %}Теги{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Теги</h1>
+<div class="table-responsive card"><table class="table table-hover mb-0">
+    <thead><tr><th>ID</th><th>Название</th><th>Задач</th><th>Действия</th></tr></thead>
+    <tbody>
+    {% for tag in tags %}
+    <tr>
+        <td>{{ tag.id }}</td>
+        <td>
+            <form method="post" class="d-flex gap-2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="action" value="rename">
+                <input type="hidden" name="tag_id" value="{{ tag.id }}">
+                <input name="name" class="form-control form-control-sm" value="{{ tag.name }}">
+                <button class="btn btn-sm btn-primary">OK</button>
+            </form>
+        </td>
+        <td>{{ tag.tasks|length }}</td>
+        <td>
+            <form method="post" class="d-inline" onsubmit="return confirm('Удалить тег?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="tag_id" value="{{ tag.id }}">
+                <button class="btn btn-sm btn-outline-danger">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table></div>
+{% endblock %}

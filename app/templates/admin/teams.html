@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% block title %}Команды{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Команды</h1>
+<div class="table-responsive card"><table class="table table-hover mb-0">
+    <thead><tr><th>ID</th><th>Название</th><th>Владелец</th><th>Код</th><th>Участников</th><th>Создана</th><th></th></tr></thead>
+    <tbody>
+    {% for t in teams %}
+    <tr>
+        <td>{{ t.id }}</td>
+        <td>{{ t.name }}</td>
+        <td>{{ t.owner.username }}</td>
+        <td><code>{{ t.invite_code }}</code></td>
+        <td>{{ t.memberships|length }}</td>
+        <td class="text-muted small">{{ t.created_at.strftime('%d.%m.%Y') }}</td>
+        <td><a href="{{ url_for('admin.team_detail', team_id=t.id) }}" class="btn btn-sm btn-outline-primary">Открыть</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table></div>
+{% endblock %}

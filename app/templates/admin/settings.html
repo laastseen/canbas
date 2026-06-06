@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+{% block title %}Настройки{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Настройки сайта</h1>
+<div class="card col-lg-8"><div class="card-body">
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+            <label class="form-label">Название сайта</label>
+            <input name="site_name" class="form-control" value="{{ site_name }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Макс. размер загрузки (МБ)</label>
+            <input name="max_upload_mb" type="number" class="form-control" value="{{ max_upload_mb }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Заблокированные домены email (через запятую)</label>
+            <input name="blocked_email_domains" class="form-control" value="{{ blocked_email_domains }}" placeholder="tempmail.com, trash.me">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="registration_enabled" class="form-check-input" id="reg_enabled" {% if registration_enabled %}checked{% endif %}>
+            <label class="form-check-label" for="reg_enabled">Регистрация открыта</label>
+        </div>
+        <button class="btn btn-primary">Сохранить</button>
+    </form>
+</div></div>
+{% endblock %}

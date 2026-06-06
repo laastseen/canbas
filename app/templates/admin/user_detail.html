@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ user.username }}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">{{ user.username }}</h1>
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card"><div class="card-header">Профиль</div><div class="card-body">
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="action" value="update_profile">
+                <div class="mb-3"><label class="form-label">Имя</label><input name="username" class="form-control" value="{{ user.username }}"></div>
+                <div class="mb-3"><label class="form-label">Email</label><input name="email" class="form-control" value="{{ user.email }}"></div>
+                <button class="btn btn-primary">Сохранить</button>
+            </form>
+        </div></div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card mb-3"><div class="card-header">Действия</div><div class="card-body d-flex flex-wrap gap-2">
+            <form method="post" class="d-inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="toggle_active"><button class="btn btn-outline-warning">{% if user.is_active %}Заблокировать{% else %}Разблокировать{% endif %}</button></form>
+            <form method="post" class="d-inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="toggle_superadmin"><button class="btn btn-outline-danger">{% if user.is_superadmin %}Снять admin{% else %}Сделать admin{% endif %}</button></form>
+            <form method="post" class="d-inline ms-2" action="{{ url_for('admin.user_delete', user_id=user.id) }}" onsubmit="return confirm('Удалить пользователя?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn btn-outline-danger">Удалить</button>
+            </form>
+        </div></div>
+        <div class="card"><div class="card-header">Сброс пароля</div><div class="card-body">
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="action" value="reset_password">
+                <div class="mb-3"><input type="password" name="new_password" class="form-control" placeholder="Новый пароль" minlength="6" required></div>
+                <button class="btn btn-secondary">Сбросить пароль</button>
+            </form>
+        </div></div>
+    </div>
+</div>
+<div class="card mt-4"><div class="card-header">Команды пользователя</div><ul class="list-group list-group-flush">
+    {% for m in memberships %}
+    <li class="list-group-item d-flex justify-content-between"><span>{{ m.team.name }}</span><span class="badge bg-secondary">{{ m.role }}</span></li>
+    {% else %}<li class="list-group-item text-muted">Не состоит в командах</li>{% endfor %}
+</ul></div>
+<a href="{{ url_for('admin.users') }}" class="btn btn-link mt-3">← Назад</a>
+{% endblock %}

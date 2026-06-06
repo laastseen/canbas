@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+{% block title %}Файлы{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Вложения</h1>
+<div class="table-responsive card"><table class="table table-hover mb-0">
+    <thead><tr><th>ID</th><th>Имя файла</th><th>Задача</th><th>Загрузил</th><th>Дата</th><th></th></tr></thead>
+    <tbody>
+    {% for a in attachments %}
+    <tr>
+        <td>{{ a.id }}</td>
+        <td>{{ a.original_name }}</td>
+        <td>#{{ a.task_id }} — {{ a.task.title[:40] }}</td>
+        <td>{{ a.uploader.username }}</td>
+        <td class="text-muted small">{{ a.uploaded_at.strftime('%d.%m.%Y') }}</td>
+        <td>
+            <form method="post" action="{{ url_for('admin.attachment_delete', attachment_id=a.id) }}" class="d-inline" onsubmit="return confirm('Удалить файл?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn btn-sm btn-outline-danger">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% else %}<tr><td colspan="6" class="text-muted">Нет файлов</td></tr>{% endfor %}
+    </tbody>
+</table></div>
+{% endblock %}
