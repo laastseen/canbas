@@ -24,6 +24,7 @@
             <a class="nav-link {% if request.endpoint == 'admin.attachments' %}active{% endif %}" href="{{ url_for('admin.attachments') }}"><i class="bi bi-paperclip me-2"></i>Файлы</a>
             <a class="nav-link {% if request.endpoint == 'admin.tags' %}active{% endif %}" href="{{ url_for('admin.tags') }}"><i class="bi bi-tags me-2"></i>Теги</a>
             <a class="nav-link {% if request.endpoint == 'admin.activity' %}active{% endif %}" href="{{ url_for('admin.activity') }}"><i class="bi bi-clock-history me-2"></i>Активность</a>
+            <a class="nav-link {% if request.endpoint == 'admin.consents' %}active{% endif %}" href="{{ url_for('admin.consents') }}"><i class="bi bi-journal-check me-2"></i>Согласия ПДн</a>
             <a class="nav-link {% if request.endpoint == 'admin.settings' %}active{% endif %}" href="{{ url_for('admin.settings') }}"><i class="bi bi-gear me-2"></i>Настройки</a>
             <hr class="border-secondary mx-3">
             <a class="nav-link" href="{{ url_for('main.dashboard') }}"><i class="bi bi-box-arrow-left me-2"></i>На сайт</a>

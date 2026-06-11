@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Политика использования cookie{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <h1 class="mb-2">Политика использования файлов cookie</h1>
+        <p class="text-muted small mb-4">Редакция от {{ policy_version }} · Сервис Canbas</p>
+
+        <div class="card shadow-sm">
+            <div class="card-body legal-doc">
+                <h2 class="h5">1. Что такое cookie</h2>
+                <p>Cookie — небольшие текстовые файлы, которые сохраняются в браузере при посещении сайта. Они помогают обеспечить работу Сервиса и запомнить ваши настройки.</p>
+
+                <h2 class="h5 mt-4">2. Какие cookie использует Canbas</h2>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr><th>Категория</th><th>Назначение</th><th>Примеры</th><th>Можно отключить</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Необходимые</strong></td>
+                            <td>Авторизация, безопасность, защита от CSRF-атак</td>
+                            <td>сессионная cookie Flask, CSRF-токен</td>
+                            <td>Нет (без них Сервис не работает)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Функциональные</strong></td>
+                            <td>Запоминание выбора в баннере cookie</td>
+                            <td>localStorage <code>canbas_cookie_consent</code></td>
+                            <td>Да</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Аналитические</strong></td>
+                            <td>Статистика посещений (при подключении)</td>
+                            <td>в настоящее время не используются</td>
+                            <td>Да</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Маркетинговые</strong></td>
+                            <td>Рекламные и ремаркетинговые технологии</td>
+                            <td>не используются</td>
+                            <td>Да</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 class="h5 mt-4">3. Управление cookie</h2>
+                <p>При первом посещении сайта отображается баннер с выбором:</p>
+                <ul>
+                    <li><strong>Только необходимые</strong> — устанавливаются cookie, без которых невозможна авторизация и безопасная работа;</li>
+                    <li><strong>Принять все</strong> — дополнительно разрешаются функциональные и аналитические cookie (если они подключены).</li>
+                </ul>
+                <p>Вы можете изменить выбор, очистив данные сайта в настройках браузера — баннер появится снова.</p>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="reset-cookie-choice">Сбросить выбор cookie</button>
+
+                <h2 class="h5 mt-4">4. Срок хранения</h2>
+                <ul>
+                    <li>сессионные cookie — до закрытия браузера или выхода из аккаунта;</li>
+                    <li>запись о выборе в баннере — до 12 месяцев или до сброса в браузере.</li>
+                </ul>
+
+                <h2 class="h5 mt-4">5. Связь с политикой ПДн</h2>
+                <p>Идентификаторы cookie могут относиться к персональным данным. Подробнее об обработке персональных данных — в <a href="{{ url_for('legal.privacy') }}">Политике обработки персональных данных</a>.</p>
+
+                <p class="mt-4 mb-0 text-muted small">Контакты оператора: <a href="mailto:{{ legal.email }}">{{ legal.email }}</a>, {{ legal.phone }}.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('reset-cookie-choice')?.addEventListener('click', function () {
+    localStorage.removeItem('canbas_cookie_consent');
+    alert('Выбор сброшен. Обновите страницу — баннер появится снова.');
+});
+</script>
+{% endblock %}

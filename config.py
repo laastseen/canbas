@@ -7,6 +7,14 @@ UPLOAD_DIR = BASE_DIR / "uploads"
 
 
 class Config:
+    POLICY_VERSION = "2026-06-06"
+    LEGAL_OPERATOR = {
+        "name": "Мамонов Кирилл Александрович",
+        "address": "160000, г. Вологда, ул. Бородинская, д. 8",
+        "phone": "+7 (921) 680-07-03",
+        "email": "kirillmamonov1311@gmail.com",
+        "site_url": os.environ.get("SITE_URL", "https://vm4361050.firstbyte.club"),
+    }
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DATABASE_URL",

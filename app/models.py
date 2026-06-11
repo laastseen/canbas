@@ -165,6 +165,19 @@ class SiteSetting(db.Model):
     value = db.Column(db.Text, nullable=False)
 
 
+class ConsentLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    email = db.Column(db.String(120), nullable=True)
+    consent_type = db.Column(db.String(50), nullable=False)
+    policy_version = db.Column(db.String(20), nullable=False)
+    ip_address = db.Column(db.String(64), nullable=True)
+    user_agent = db.Column(db.String(500), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user = db.relationship("User", backref="consent_logs")
+
+
 @login_manager.user_loader
 def load_user(user_id):
     user = db.session.get(User, int(user_id))

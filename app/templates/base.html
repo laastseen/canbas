@@ -87,13 +87,47 @@
     {% block content %}{% endblock %}
 </main>
 
-<footer class="footer mt-auto py-3 border-top">
-    <div class="container text-center text-muted small">
-        Canbas &mdash; управление задачами для малых команд
+<footer class="footer mt-auto py-4 border-top">
+    <div class="container">
+        <div class="row g-3 text-muted small">
+            <div class="col-md-7">
+                <div class="fw-semibold text-dark mb-1">{{ legal.name }}</div>
+                <div>{{ legal.address }}</div>
+                <div>
+                    <a href="tel:{{ legal.phone | replace(' ', '') | replace('(', '') | replace(')', '') | replace('-', '') }}" class="text-muted">{{ legal.phone }}</a>
+                    · <a href="mailto:{{ legal.email }}" class="text-muted">{{ legal.email }}</a>
+                </div>
+            </div>
+            <div class="col-md-5 text-md-end">
+                <div class="mb-1">Canbas — управление задачами для малых команд</div>
+                <div>
+                    <a href="{{ url_for('legal.privacy') }}" class="text-muted">Политика ПДн</a>
+                    · <a href="{{ url_for('legal.cookies') }}" class="text-muted">Cookie</a>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
 
+<div id="cookie-banner" class="cookie-banner d-none" role="dialog" aria-label="Уведомление о cookie" aria-hidden="true">
+    <div class="container">
+        <div class="cookie-banner-inner">
+            <p class="mb-2 mb-md-0 small">
+                Мы используем файлы cookie для авторизации и безопасности сайта.
+                Подробнее — в <a href="{{ url_for('legal.cookies') }}">Политике cookie</a>
+                и <a href="{{ url_for('legal.privacy') }}">Политике ПДн</a>.
+            </p>
+            <div class="cookie-banner-actions">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-cookie-choice="necessary">Только необходимые</button>
+                <button type="button" class="btn btn-primary btn-sm" data-cookie-choice="all">Принять все</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ url_for('static', filename='js/board.js') }}"></script>
+<script src="{{ url_for('static', filename='js/cookies.js') }}"></script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

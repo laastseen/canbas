@@ -38,6 +38,36 @@ main { flex: 1; }
 /* ── Footer ── */
 .footer { background: var(--cb-surface); }
 
+/* ── Legal / cookie banner ── */
+.legal-doc h2 { margin-top: 1.25rem; }
+.legal-doc ul { padding-left: 1.25rem; }
+
+.cookie-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1080;
+  background: var(--cb-surface);
+  border-top: 1px solid var(--cb-border);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+  padding: 1rem 0;
+}
+
+.cookie-banner-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 /* ── Landing hero ── */
 .landing-hero {
   background: linear-gradient(135deg, #eef2ff 0%, #f0fdf4 100%);

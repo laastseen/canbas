@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 980" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <!-- UML: стрелка «расширение» (открытый наконечник) -->
+    <marker id="extendArrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#64748b" stroke-width="1.2"/>
+    </marker>
+    <style>
+      .title { font-size: 22px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 13px; fill: #64748b; }
+      .system-box { fill: #fafafa; stroke: #4f46e5; stroke-width: 2.5; }
+      .system-label { font-size: 17px; font-weight: 700; fill: #4338ca; }
+      .zone-label { font-size: 11px; font-weight: 600; fill: #94a3b8; letter-spacing: 0.5px; }
+      .usecase { fill: #ffffff; stroke: #6366f1; stroke-width: 1.6; }
+      .usecase-text { font-size: 12px; fill: #1e293b; text-anchor: middle; dominant-baseline: middle; }
+      .assoc { stroke: #334155; stroke-width: 1.5; fill: none; }
+      .extend { stroke: #64748b; stroke-width: 1.3; stroke-dasharray: 6 4; fill: none; marker-end: url(#extendArrow); }
+      .extend-label { font-size: 10px; fill: #64748b; font-style: italic; }
+      .actor-name { font-size: 13px; font-weight: 600; fill: #111827; text-anchor: middle; }
+      .actor-sub { font-size: 10px; fill: #64748b; text-anchor: middle; }
+      .legend-box { fill: #fff; stroke: #cbd5e1; stroke-width: 1; }
+      .legend-text { font-size: 11px; fill: #475569; }
+    </style>
+  </defs>
+
+  <!-- Заголовок -->
+  <text x="700" y="38" text-anchor="middle" class="title">Диаграмма вариантов использования системы Canbas</text>
+  <text x="700" y="62" text-anchor="middle" class="subtitle">Командное управление задачами</text>
+
+  <!-- ===== АКТОРЫ (слева) ===== -->
+  <!-- Гость -->
+  <g id="actor-guest">
+    <circle cx="90" cy="130" r="15" fill="none" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="145" x2="90" y2="195" stroke="#111827" stroke-width="2"/>
+    <line x1="58" y1="165" x2="122" y2="165" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="195" x2="62" y2="235" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="195" x2="118" y2="235" stroke="#111827" stroke-width="2"/>
+    <text x="90" y="258" class="actor-name">Гость</text>
+  </g>
+
+  <!-- Участник -->
+  <g id="actor-member">
+    <circle cx="90" cy="420" r="15" fill="none" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="435" x2="90" y2="485" stroke="#111827" stroke-width="2"/>
+    <line x1="58" y1="455" x2="122" y2="455" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="485" x2="62" y2="525" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="485" x2="118" y2="525" stroke="#111827" stroke-width="2"/>
+    <text x="90" y="548" class="actor-name">Участник</text>
+    <text x="90" y="564" class="actor-sub">команды</text>
+  </g>
+
+  <!-- Админ команды -->
+  <g id="actor-team-admin">
+    <circle cx="90" cy="720" r="15" fill="none" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="735" x2="90" y2="785" stroke="#111827" stroke-width="2"/>
+    <line x1="58" y1="755" x2="122" y2="755" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="785" x2="62" y2="825" stroke="#111827" stroke-width="2"/>
+    <line x1="90" y1="785" x2="118" y2="825" stroke="#111827" stroke-width="2"/>
+    <text x="90" y="848" class="actor-name">Администратор</text>
+    <text x="90" y="864" class="actor-sub">команды</text>
+  </g>
+
+  <!-- Суперадмин (справа) -->
+  <g id="actor-superadmin">
+    <circle cx="1310" cy="480" r="15" fill="none" stroke="#111827" stroke-width="2"/>
+    <line x1="1310" y1="495" x2="1310" y2="545" stroke="#111827" stroke-width="2"/>
+    <line x1="1278" y1="515" x2="1342" y2="515" stroke="#111827" stroke-width="2"/>
+    <line x1="1310" y1="545" x2="1282" y2="585" stroke="#111827" stroke-width="2"/>
+    <line x1="1310" y1="545" x2="1338" y2="585" stroke="#111827" stroke-width="2"/>
+    <text x="1310" y="608" class="actor-name">Суперадмин</text>
+    <text x="1310" y="624" class="actor-sub">системы</text>
+  </g>
+
+  <!-- ===== ГРАНИЦА СИСТЕМЫ ===== -->
+  <rect x="200" y="85" width="980" height="830" rx="14" class="system-box"/>
+  <text x="690" y="115" text-anchor="middle" class="system-label">Canbas — веб-приложение</text>
+
+  <!-- Зоны -->
+  <text x="380" y="142" class="zone-label">АУТЕНТИФИКАЦИЯ И ДОСТУП</text>
+  <text x="380" y="272" class="zone-label">КОМАНДЫ И ПРОЕКТЫ</text>
+  <text x="380" y="452" class="zone-label">РАБОТА С ЗАДАЧАМИ</text>
+  <text x="720" y="452" class="zone-label">АНАЛИТИКА</text>
+  <text x="720" y="672" class="zone-label">АДМИН-ПАНЕЛЬ (/admin)</text>
+
+  <!-- ===== ВАРИАНТЫ ИСПОЛЬЗОВАНИЯ ===== -->
+  <!-- Auth -->
+  <ellipse cx="380" cy="175" rx="105" ry="26" class="usecase"/><text x="380" y="175" class="usecase-text">Регистрация</text>
+  <ellipse cx="380" cy="225" rx="105" ry="26" class="usecase"/><text x="380" y="225" class="usecase-text">Вход / выход</text>
+  <ellipse cx="620" cy="175" rx="115" ry="26" class="usecase"/><text x="620" y="175" class="usecase-text">Просмотр главной страницы</text>
+
+  <!-- Teams -->
+  <ellipse cx="380" cy="305" rx="115" ry="26" class="usecase"/><text x="380" y="305" class="usecase-text">Создание команды</text>
+  <ellipse cx="380" cy="355" rx="125" ry="26" class="usecase"/><text x="380" y="355" class="usecase-text">Вступление по коду приглашения</text>
+  <ellipse cx="380" cy="405" rx="115" ry="26" class="usecase"/><text x="380" y="405" class="usecase-text">Создание проекта</text>
+  <ellipse cx="620" cy="355" rx="115" ry="26" class="usecase" id="uc-view-team"/><text x="620" y="355" class="usecase-text">Просмотр команды</text>
+
+  <!-- Tasks -->
+  <ellipse cx="380" cy="485" rx="110" ry="26" class="usecase"/><text x="380" y="485" class="usecase-text">Создание задачи</text>
+  <ellipse cx="380" cy="535" rx="115" ry="26" class="usecase"/><text x="380" y="535" class="usecase-text">Редактирование задачи</text>
+  <ellipse cx="380" cy="585" rx="120" ry="26" class="usecase"/><text x="380" y="585" class="usecase-text">Канбан-доска (смена статуса)</text>
+  <ellipse cx="380" cy="635" rx="125" ry="26" class="usecase"/><text x="380" y="635" class="usecase-text">Комментарии и вложения</text>
+
+  <!-- Analytics -->
+  <ellipse cx="720" cy="485" rx="115" ry="26" class="usecase"/><text x="720" y="485" class="usecase-text">Панель управления</text>
+  <ellipse cx="720" cy="535" rx="120" ry="26" class="usecase"/><text x="720" y="535" class="usecase-text">Аналитика по проектам</text>
+  <ellipse cx="720" cy="585" rx="115" ry="26" class="usecase"/><text x="720" y="585" class="usecase-text">Редактирование профиля</text>
+
+  <!-- Team admin -->
+  <ellipse cx="380" cy="755" rx="130" ry="26" class="usecase" id="uc-manage-members"/><text x="380" y="755" class="usecase-text">Управление участниками</text>
+  <ellipse cx="380" cy="805" rx="135" ry="26" class="usecase"/><text x="380" y="805" class="usecase-text">Перегенерация кода приглашения</text>
+  <ellipse cx="620" cy="805" rx="120" ry="26" class="usecase"/><text x="620" y="805" class="usecase-text">Исключение участника</text>
+
+  <!-- Super admin -->
+  <ellipse cx="720" cy="705" rx="120" ry="26" class="usecase"/><text x="720" y="705" class="usecase-text">Дашборд системы</text>
+  <ellipse cx="720" cy="755" rx="130" ry="26" class="usecase"/><text x="720" y="755" class="usecase-text">Управление пользователями</text>
+  <ellipse cx="960" cy="705" rx="120" ry="26" class="usecase"/><text x="960" y="705" class="usecase-text">Управление командами</text>
+  <ellipse cx="960" cy="755" rx="120" ry="26" class="usecase"/><text x="960" y="755" class="usecase-text">Управление задачами</text>
+  <ellipse cx="960" cy="805" rx="115" ry="26" class="usecase"/><text x="960" y="805" class="usecase-text">Управление файлами</text>
+  <ellipse cx="720" cy="855" rx="115" ry="26" class="usecase"/><text x="720" y="855" class="usecase-text">Журнал активности</text>
+  <ellipse cx="960" cy="855" rx="115" ry="26" class="usecase"/><text x="960" y="855" class="usecase-text">Настройки сайта</text>
+
+  <!-- ===== СВЯЗИ: ассоциации (без стрелок — по UML) ===== -->
+  <!-- Гость -->
+  <line x1="118" y1="165" x2="275" y2="175" class="assoc"/>
+  <line x1="118" y1="170" x2="275" y2="225" class="assoc"/>
+  <line x1="118" y1="160" x2="505" y2="175" class="assoc"/>
+
+  <!-- Участник → аутентификация, команды, задачи, аналитика -->
+  <polyline points="118,430 160,430 160,225 275,225" class="assoc" fill="none"/>
+  <line x1="118" y1="435" x2="265" y2="305" class="assoc"/>
+  <line x1="118" y1="440" x2="255" y2="355" class="assoc"/>
+  <line x1="118" y1="445" x2="265" y2="405" class="assoc"/>
+  <line x1="118" y1="450" x2="505" y2="355" class="assoc"/>
+  <line x1="118" y1="455" x2="270" y2="485" class="assoc"/>
+  <line x1="118" y1="460" x2="265" y2="535" class="assoc"/>
+  <line x1="118" y1="465" x2="260" y2="585" class="assoc"/>
+  <line x1="118" y1="470" x2="255" y2="635" class="assoc"/>
+  <line x1="118" y1="475" x2="605" y2="485" class="assoc"/>
+  <line x1="118" y1="480" x2="600" y2="535" class="assoc"/>
+  <line x1="118" y1="485" x2="605" y2="585" class="assoc"/>
+
+  <!-- Администратор команды -->
+  <line x1="118" y1="730" x2="250" y2="755" class="assoc"/>
+  <line x1="118" y1="740" x2="245" y2="805" class="assoc"/>
+  <line x1="118" y1="750" x2="500" y2="805" class="assoc"/>
+
+  <!-- <<extends>> от управления участниками к просмотру команды -->
+  <path d="M 510 755 L 510 355" class="extend"/>
+  <text x="522" y="560" class="extend-label">&#171;расширяет&#187;</text>
+
+  <!-- <<extends>> админ команды наследует возможности участника (упрощённо — к входу) -->
+  <path d="M 250 720 L 180 720 L 180 430 L 118 430" class="extend"/>
+  <text x="195" y="578" class="extend-label">&#171;расширяет&#187;</text>
+
+  <!-- Суперадмин -->
+  <line x1="1292" y1="470" x2="840" y2="705" class="assoc"/>
+  <line x1="1292" y1="475" x2="850" y2="755" class="assoc"/>
+  <line x1="1292" y1="480" x2="1080" y2="705" class="assoc"/>
+  <line x1="1292" y1="485" x2="1080" y2="755" class="assoc"/>
+  <line x1="1292" y1="490" x2="1075" y2="805" class="assoc"/>
+  <line x1="1292" y1="495" x2="835" y2="855" class="assoc"/>
+  <line x1="1292" y1="500" x2="1075" y2="855" class="assoc"/>
+
+  <!-- Легенда -->
+  <rect x="210" y="930" width="520" height="36" rx="6" class="legend-box"/>
+  <line x1="230" y1="948" x2="280" y2="948" class="assoc"/>
+  <text x="290" y="952" class="legend-text">ассоциация — актор использует вариант (без стрелки)</text>
+  <line x1="530" y1="948" x2="580" y2="948" class="extend"/>
+  <text x="590" y="952" class="legend-text">&#171;расширяет&#187; — доп. сценарий</text>
+</svg>

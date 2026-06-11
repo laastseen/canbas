@@ -23,6 +23,7 @@ def create_app(config_class=Config):
     from app.tasks import bp as tasks_bp
     from app.analytics import bp as analytics_bp
     from app.admin import bp as admin_bp
+    from app.legal import bp as legal_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -30,6 +31,14 @@ def create_app(config_class=Config):
     app.register_blueprint(tasks_bp)
     app.register_blueprint(analytics_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(legal_bp)
+
+    @app.context_processor
+    def inject_legal():
+        return {
+            "legal": app.config["LEGAL_OPERATOR"],
+            "policy_version": app.config["POLICY_VERSION"],
+        }
 
     with app.app_context():
         from app import models  # noqa: F401

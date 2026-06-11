@@ -17,6 +17,7 @@ from app.extensions import db
 from app.models import (
     Attachment,
     Comment,
+    ConsentLog,
     Project,
     Tag,
     Task,
@@ -251,6 +252,14 @@ def tags():
 def activity():
     items = TaskActivity.query.order_by(TaskActivity.created_at.desc()).limit(100).all()
     return render_template("admin/activity.html", activities=items)
+
+
+@bp.route("/consents")
+@login_required
+@superadmin_required
+def consents():
+    logs = ConsentLog.query.order_by(ConsentLog.created_at.desc()).limit(200).all()
+    return render_template("admin/consents.html", logs=logs)
 
 
 @bp.route("/settings", methods=["GET", "POST"])

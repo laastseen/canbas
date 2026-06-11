@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField
+from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
+
+CONSENT_PD_MESSAGE = "Необходимо согласие на обработку персональных данных"
 
 
 class LoginForm(FlaskForm):
@@ -17,6 +19,10 @@ class RegistrationForm(FlaskForm):
         "Подтверждение пароля",
         validators=[DataRequired(), EqualTo("password")],
     )
+    consent_pd = BooleanField(
+        "Согласие на обработку персональных данных",
+        validators=[DataRequired(message=CONSENT_PD_MESSAGE)],
+    )
     submit = SubmitField("Зарегистрироваться")
 
 
@@ -28,5 +34,9 @@ class ProfileForm(FlaskForm):
     confirm_new_password = PasswordField(
         "Подтверждение нового пароля",
         validators=[Optional(), EqualTo("new_password", message="Пароли не совпадают")],
+    )
+    consent_pd = BooleanField(
+        "Согласие на обработку персональных данных",
+        validators=[DataRequired(message=CONSENT_PD_MESSAGE)],
     )
     submit = SubmitField("Сохранить")

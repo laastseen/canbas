@@ -1,9 +1,10 @@
-from flask import flash, redirect, render_template, url_for
+from flask import current_app, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app.admin.services import get_setting
 from app.auth import bp
 from app.auth.forms import LoginForm, ProfileForm, RegistrationForm
+from app.consent import log_consent
 from app.extensions import db
 from app.models import User
 
@@ -36,6 +37,14 @@ def register():
         user = User(username=form.username.data, email=form.email.data.lower())
         user.set_password(form.password.data)
         db.session.add(user)
+        db.session.flush()
+
+        log_consent(
+            "registration",
+            email=user.email,
+            user_id=user.id,
+            policy_version=current_app.config["POLICY_VERSION"],
+        )
         db.session.commit()
 
         login_user(user)
@@ -91,6 +100,13 @@ def profile():
 
         current_user.username = form.username.data
         current_user.email = form.email.data.lower()
+
+        log_consent(
+            "profile_update",
+            email=current_user.email,
+            user_id=current_user.id,
+            policy_version=current_app.config["POLICY_VERSION"],
+        )
 
         if form.new_password.data:
             if not form.current_password.data or not current_user.check_password(form.current_password.data):

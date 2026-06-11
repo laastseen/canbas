@@ -35,6 +35,8 @@
                         {{ form.confirm_new_password(class='form-control') }}
                         {% for e in form.confirm_new_password.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
                     </div>
+                    {% set show_password_note = false %}
+                    {% include 'partials/consent_checkbox.html' %}
                     {{ form.submit(class='btn btn-primary') }}
                 </form>
             </div>

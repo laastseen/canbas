@@ -1,0 +1,46 @@
+{% extends 'admin/base.html' %}
+{% block title %}Журнал согласий{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Журнал согласий на обработку ПДн</h1>
+</div>
+<p class="text-muted">Записи для подтверждения получения согласий (регистрация, cookie). Версия политики: {{ policy_version }}.</p>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Дата</th>
+                    <th>Тип</th>
+                    <th>E-mail</th>
+                    <th>Пользователь</th>
+                    <th>IP</th>
+                    <th>Версия политики</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in logs %}
+                <tr>
+                    <td class="text-nowrap small">{{ row.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td><span class="badge bg-secondary">{{ row.consent_type }}</span></td>
+                    <td class="small">{{ row.email or '—' }}</td>
+                    <td class="small">
+                        {% if row.user %}
+                            <a href="{{ url_for('admin.user_detail', user_id=row.user_id) }}">{{ row.user.username }}</a>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td class="small text-muted">{{ row.ip_address or '—' }}</td>
+                    <td class="small">{{ row.policy_version }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Записей пока нет</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% if logs %}
+<p class="text-muted small mt-2">Показаны последние {{ logs|length }} записей.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+<div class="mb-3 form-check">
+    {{ form.consent_pd(class='form-check-input') }}
+    <label class="form-check-label small" for="{{ form.consent_pd.id }}">
+        Согласен(на) на обработку моих персональных данных
+        (логин, e-mail{% if show_password_note %}, пароль{% endif %}) для работы сервиса Canbas.
+        Ознакомлен(а) с <a href="{{ url_for('legal.privacy') }}" target="_blank" rel="noopener">Политикой обработки ПДн</a>.
+        Отозвать согласие: <a href="mailto:{{ legal.email }}">{{ legal.email }}</a>.
+    </label>
+    {% for e in form.consent_pd.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+</div>
